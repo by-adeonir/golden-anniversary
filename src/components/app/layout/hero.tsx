@@ -98,7 +98,7 @@ export function Hero() {
 
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="-translate-x-1/2 absolute bottom-8 left-1/2 transform"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 transform"
         initial={{ opacity: 0, y: 20 }}
         transition={{ ...animationConfig, delay: prefersReducedMotion ? 0 : 0.6 }}
       >
