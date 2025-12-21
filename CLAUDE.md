@@ -113,6 +113,16 @@ This project follows MVVM architecture:
 - `pnpm deploy:prd` - Deploy to production (`vercel --prod`)
 - `pnpm deploy:stg` - Deploy to staging (`vercel --target staging`)
 
+### Deploy Workflow
+
+1. Work on `staging` branch
+2. Make changes and test locally (`pnpm check && pnpm lint && pnpm test`)
+3. Commit and push to `staging`
+4. Deploy to staging (`pnpm deploy:stg`) or wait for Vercel auto-deploy
+5. Validate changes at `golden-anniversary.vercel.app`
+6. Create PR from `staging` to `main`
+7. After merge, deploy to production (`pnpm deploy:prd`)
+
 ## Testing Infrastructure
 
 - **Framework**: Vitest + React Testing Library + jsdom
