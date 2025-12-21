@@ -115,7 +115,7 @@ export function GuestbookForm() {
 
             <div className="flex justify-end">
               <Button
-                className="hover:-translate-y-px w-48"
+                className="w-48 hover:-translate-y-px"
                 loading={createMessageMutation.isPending}
                 size="lg"
                 type="submit"

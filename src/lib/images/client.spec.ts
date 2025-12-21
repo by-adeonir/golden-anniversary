@@ -6,10 +6,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('imagekit', () => ({
-  default: vi.fn().mockImplementation(() => ({
-    upload: vi.fn(),
-    deleteFile: vi.fn(),
-  })),
+  // biome-ignore lint/complexity/useArrowFunction: vi.fn mock requires function for constructor
+  default: vi.fn(function () {
+    return {
+      upload: vi.fn(),
+      deleteFile: vi.fn(),
+    }
+  }),
 }))
 
 vi.mock('~/env', () => ({

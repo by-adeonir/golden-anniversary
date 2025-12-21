@@ -91,7 +91,7 @@ export function Memories() {
             </div>
 
             <Button
-              className="-translate-y-1/2 sm:-translate-y-1/2 absolute top-1/2 left-4 z-10 size-12 rounded-full bg-white text-gold-600 shadow-xl hover:bg-white hover:text-gold-700 disabled:opacity-50 max-sm:top-auto max-sm:bottom-4 max-sm:left-4 max-sm:translate-y-0 sm:top-1/2 sm:left-4"
+              className="absolute top-1/2 left-4 z-10 size-12 -translate-y-1/2 rounded-full bg-white text-gold-600 shadow-xl hover:bg-white hover:text-gold-700 disabled:opacity-50 max-sm:top-auto max-sm:bottom-4 max-sm:left-4 max-sm:translate-y-0 sm:top-1/2 sm:left-4 sm:-translate-y-1/2"
               disabled={!canScrollPrev}
               onClick={scrollPrev}
               size="icon"
@@ -102,7 +102,7 @@ export function Memories() {
             </Button>
 
             <Button
-              className="-translate-y-1/2 sm:-translate-y-1/2 absolute top-1/2 right-4 z-10 size-12 rounded-full bg-white text-gold-600 shadow-xl hover:bg-white hover:text-gold-700 disabled:opacity-50 max-sm:top-auto max-sm:right-4 max-sm:bottom-4 max-sm:translate-y-0 sm:top-1/2 sm:right-4"
+              className="absolute top-1/2 right-4 z-10 size-12 -translate-y-1/2 rounded-full bg-white text-gold-600 shadow-xl hover:bg-white hover:text-gold-700 disabled:opacity-50 max-sm:top-auto max-sm:right-4 max-sm:bottom-4 max-sm:translate-y-0 sm:top-1/2 sm:right-4 sm:-translate-y-1/2"
               disabled={!canScrollNext}
               onClick={scrollNext}
               size="icon"

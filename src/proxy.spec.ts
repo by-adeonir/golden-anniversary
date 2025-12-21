@@ -15,7 +15,7 @@ vi.mock('~/lib/auth/jwt', () => ({
 
 import { NextResponse } from 'next/server'
 import { verifyToken } from '~/lib/auth/jwt'
-import { middleware } from './middleware'
+import { proxy } from './proxy'
 
 function makeRequest(pathname: string, token?: string) {
   const url = new URL(`http://localhost${pathname}`)
@@ -27,10 +27,10 @@ function makeRequest(pathname: string, token?: string) {
     cookies: {
       get: vi.fn(() => (token ? { value: token } : undefined)),
     },
-  } as unknown as Parameters<typeof middleware>[0]
+  } as unknown as Parameters<typeof proxy>[0]
 }
 
-describe('Middleware', () => {
+describe('Proxy', () => {
   beforeEach(async () => {
     vi.clearAllMocks()
     await initializeTestDatabase()
@@ -38,26 +38,26 @@ describe('Middleware', () => {
   })
 
   it('allows non-admin routes to pass through', async () => {
-    const res = await middleware(makeRequest('/public'))
+    const res = await proxy(makeRequest('/public'))
     expect(res).toBeInstanceOf(NextResponse)
     expect(res.headers.get('location')).toBeNull()
     expect(res.status).toBe(200)
   })
 
   it('redirects when no auth token on admin route', async () => {
-    const res = await middleware(makeRequest('/admin'))
+    const res = await proxy(makeRequest('/admin'))
     expect(res.headers.get('location')).toBe('http://localhost/')
   })
 
   it('redirects when token is invalid', async () => {
     ;(verifyToken as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce(null)
-    const res = await middleware(makeRequest('/admin', 'invalid'))
+    const res = await proxy(makeRequest('/admin', 'invalid'))
     expect(res.headers.get('location')).toBe('http://localhost/')
   })
 
   it('redirects when user not found in database', async () => {
     ;(verifyToken as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({ userId: '999', email: 'x@y.z' })
-    const res = await middleware(makeRequest('/admin', 'token'))
+    const res = await proxy(makeRequest('/admin', 'token'))
     expect(res.headers.get('location')).toBe('http://localhost/')
   })
 
@@ -68,7 +68,7 @@ describe('Middleware', () => {
       email: user.email,
     })
 
-    const res = await middleware(makeRequest('/admin', 'valid'))
+    const res = await proxy(makeRequest('/admin', 'valid'))
     expect(res.headers.get('location')).toBeNull()
     expect(res.status).toBe(200)
   })

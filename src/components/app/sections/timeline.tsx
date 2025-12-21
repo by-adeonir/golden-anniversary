@@ -115,7 +115,7 @@ export function Timeline() {
         <SectionHeader icon={Clock} subtitle={content.subtitle} title={content.title} />
 
         <div className="relative py-4">
-          <div className="-translate-x-1/2 -inset-y-4 absolute left-1/2 w-1 transform bg-gold-300" />
+          <div className="absolute -inset-y-4 left-1/2 w-1 -translate-x-1/2 transform bg-gold-300" />
 
           <div className="timeline-spacing">
             {content.events.map((event, index) => (
@@ -179,7 +179,7 @@ function TimelineEvent({
       variants={variants}
       viewport={{ margin: '-150px' }}
     >
-      <div className="-translate-x-1/2 absolute top-6 left-1/2 hidden md:block">
+      <div className="absolute top-6 left-1/2 hidden -translate-x-1/2 md:block">
         <TimelineIcon icon={event.icon} isHovered={isHovered} />
       </div>
 

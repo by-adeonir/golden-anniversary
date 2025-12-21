@@ -4,7 +4,7 @@ import { verifyToken } from '~/lib/auth/jwt'
 import { db } from '~/lib/database/client'
 import { users } from '~/lib/database/schema'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/admin')) {
     const token = request.cookies.get('auth-token')?.value
 

@@ -25,7 +25,10 @@ export const mockImageKitClient = {
 }
 
 // Mock ImageKit constructor
-export const MockImageKit = vi.fn(() => mockImageKitClient)
+// biome-ignore lint/complexity/useArrowFunction: vi.fn mock requires function for constructor
+export const MockImageKit = vi.fn(function () {
+  return mockImageKitClient
+})
 
 // Mock the imagekit module
 vi.mock('imagekit', () => ({
