@@ -8,14 +8,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    deps: {
-      optimizer: {
-        web: {
-          enabled: true,
-          include: ['react', 'react-dom', '@testing-library/react', 'drizzle-orm'],
-        },
-      },
-    },
   },
   resolve: {
     alias: {
