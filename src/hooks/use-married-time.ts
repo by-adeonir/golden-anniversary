@@ -1,4 +1,4 @@
-import { differenceInDays, differenceInMonths, differenceInYears } from 'date-fns'
+import { addMonths, addYears, differenceInDays, differenceInMonths, differenceInYears } from 'date-fns'
 import { useEffect, useState } from 'react'
 
 export type MarriedTime = {
@@ -25,7 +25,7 @@ export function useMarriedTime(marriageDate: Date): MarriedTime {
 
     const timer = setInterval(() => {
       setTime(calculateMarriedTime(marriageDate))
-    }, 60000)
+    }, 60_000) // 1 minute
 
     return () => clearInterval(timer)
   }, [marriageDate, isClient])
@@ -37,13 +37,11 @@ export function calculateMarriedTime(marriageDate: Date): MarriedTime {
   const now = new Date()
 
   const years = differenceInYears(now, marriageDate)
+  const dateAfterYears = addYears(marriageDate, years)
 
-  const dateAfterYears = new Date(marriageDate)
-  dateAfterYears.setFullYear(dateAfterYears.getFullYear() + years)
   const months = differenceInMonths(now, dateAfterYears)
+  const dateAfterMonths = addMonths(dateAfterYears, months)
 
-  const dateAfterMonths = new Date(dateAfterYears)
-  dateAfterMonths.setMonth(dateAfterMonths.getMonth() + months)
   const days = differenceInDays(now, dateAfterMonths)
 
   return {

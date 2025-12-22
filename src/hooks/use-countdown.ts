@@ -29,7 +29,7 @@ export function useCountdown(targetDate: Date): CountdownTime {
 
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft(targetDate))
-    }, 1000)
+    }, 1_000) // 1 second
 
     return () => clearInterval(timer)
   }, [targetDate, isClient])

@@ -66,29 +66,26 @@ export function Countdown() {
           />
 
           {isExpired ? (
-            <output
+            <section
               aria-label="Tempo de casamento de Iria e Ari"
               aria-live="polite"
-              className="relative mx-auto block max-w-4xl"
+              className="mx-auto grid max-w-4xl grid-cols-3 gap-6 md:gap-8"
             >
-              <div className="grid grid-cols-3 gap-6 md:gap-8">
-                <TimeCard label={content.celebration.labels.years} value={marriedTime.years} />
-                <TimeCard label={content.celebration.labels.months} value={marriedTime.months} />
-                <TimeCard label={content.celebration.labels.days} value={marriedTime.days} />
-              </div>
-            </output>
+              <TimeCard label={content.celebration.labels.years} value={marriedTime.years} />
+              <TimeCard label={content.celebration.labels.months} value={marriedTime.months} />
+              <TimeCard label={content.celebration.labels.days} value={marriedTime.days} />
+            </section>
           ) : (
-            <output
+            <section
               aria-label="Contagem regressiva para a celebração dos 50 anos de casamento"
               aria-live="polite"
               className="mx-auto grid max-w-5xl grid-cols-2 gap-6 md:grid-cols-4 md:gap-8"
-              role="timer"
             >
               <TimeCard label={content.countdown.labels.days} value={days} />
               <TimeCard label={content.countdown.labels.hours} value={hours} />
               <TimeCard label={content.countdown.labels.minutes} value={minutes} />
               <TimeCard label={content.countdown.labels.seconds} value={seconds} />
-            </output>
+            </section>
           )}
         </div>
       </div>

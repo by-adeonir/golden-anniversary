@@ -4,6 +4,8 @@ import { act, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('date-fns', () => ({
+  addMonths: vi.fn((date: Date) => date),
+  addYears: vi.fn((date: Date) => date),
   differenceInDays: vi.fn(),
   differenceInMonths: vi.fn(),
   differenceInYears: vi.fn(),
@@ -107,6 +109,7 @@ describe('Married Time Hook Tests', () => {
 
       const { result } = renderHook(() => useMarriedTime(mockMarriageDate))
 
+      // Flush client hydration effects
       await act(async () => {})
 
       expect(result.current).toEqual({
@@ -124,6 +127,7 @@ describe('Married Time Hook Tests', () => {
 
       const { result } = renderHook(() => useMarriedTime(mockMarriageDate))
 
+      // Flush client hydration effects
       await act(async () => {})
 
       expect(result.current.days).toBe(13)
@@ -153,6 +157,7 @@ describe('Married Time Hook Tests', () => {
 
       rerender({ marriageDate: newDate })
 
+      // Flush effects after prop change
       await act(async () => {})
 
       expect(differenceInYears).toHaveBeenCalled()
