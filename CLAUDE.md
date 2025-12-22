@@ -128,22 +128,12 @@ pnpm deploy:stg    # Deploy to staging
 
 ## Git Conventions
 
-### Commit Messages
-
-```
-feat: add user profile management
-
-- Create profile edit form with validation
-- Add avatar upload with image optimization
-```
-
-- Use Conventional Commits (feat, fix, refactor, etc.)
-- Imperative mood, focus on WHAT not HOW
-- Body optional, 3-4 list items max
-
 ### Pull Requests
 
-**Title**: `type(DEV-XX): description`
+- **Always create PRs targeting `staging` branch** (never directly to `main`)
+- After validation on staging, create PR from `staging` to `main`
+
+**Title**: `type(scope): description` (scope is required)
 
 ```markdown
 ## Summary
@@ -162,6 +152,21 @@ Brief description of changes.
 
 Closes DEV-XX
 ```
+
+### Commit Messages
+
+```
+feat: add user profile management
+
+- Create profile edit form with validation
+- Add avatar upload with image optimization
+```
+
+- Use Conventional Commits (feat, fix, refactor, etc.)
+- **Do NOT use scope in commits** - format is always `type: description`
+- **Do NOT mention package versions** if a package is updated
+- Imperative mood, focus on WHAT not HOW
+- Body optional, 3-4 list items max
 
 ## Code Guidelines
 

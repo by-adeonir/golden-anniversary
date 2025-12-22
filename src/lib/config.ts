@@ -12,6 +12,7 @@ export const config = {
   },
   event: {
     targetDate: '2025-11-08T18:30:00',
+    marriageDate: '1975-11-08',
     celebrationYear: 2025,
   },
   images: {
