@@ -29,7 +29,7 @@ const content = {
   },
   celebration: {
     title: 'Nosso Tempo Juntos',
-    subtitle: 'Uma vida inteira de amor e companheirismo',
+    subtitle: 'Uma vida inteira de amor e companheirismo.',
     labels: {
       years: 'anos',
       months: 'meses',
