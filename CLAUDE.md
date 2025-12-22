@@ -1,117 +1,120 @@
-# Golden Anniversary - Commemorative Site
+# CLAUDE.md
 
-Commemorative website for Iria e Ari's 50th wedding anniversary.
-**Celebration date**: November 8, 2025, 6:30 PM
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Tech Stack
+## Project Overview
 
-- **Framework**: Next.js v15 (App Router) + React v19 + TypeScript v5
-- **Styling**: Tailwind CSS v4 + Shadcn/ui
-- **Database**: Neon PostgreSQL + Drizzle ORM
-- **Auth**: JWT + bcrypt (stateless, httpOnly cookies)
-- **Storage**: ImageKit CDN (with automatic optimizations)
-- **Analytics & Monitoring**: PostHog (user analytics + error tracking)
-- **Email**: Nodemailer + Vercel Cron Jobs
-- **Deployment**: Vercel
-- **Testing**: Vitest + React Testing Library + PGlite
-- **Code Quality**: Ultracite (BiomeJS)
+Commemorative website for Iria e Ari's 50th wedding anniversary (November 8, 2025, 6:30 PM). Family and friends can leave messages (moderated guestbook) and browse photo galleries.
+
+**Audience**: Visitors (family/friends, ages 20-80) + Admin (content moderation)
+
+**Tech Stack**: Next.js 15 (App Router) + React 19 + TypeScript 5 + Tailwind CSS 4 + Shadcn/ui + Neon PostgreSQL + Drizzle ORM + ImageKit CDN + PostHog
 
 ## Development Commands
 
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for Vercel CI
-- `pnpm build:prod` - Local production build (1Password)
-- `pnpm lint` - Format and lint code
-- `pnpm check` - TypeScript type checking
-- `pnpm test` - Run tests
-- `pnpm test:watch` - Run tests in watch mode
+```bash
+pnpm dev           # Start development server (Turbopack)
+pnpm build         # Build for Vercel CI
+pnpm build:prod    # Local production build (1Password)
+pnpm lint          # Format and lint code (Biome)
+pnpm check         # TypeScript type checking
+pnpm test          # Run all tests
+pnpm test:watch    # Run tests in watch mode
+```
 
-See [Environments](#environments) section for deploy scripts.
+### Database Commands
 
-## Architecture Pattern
+```bash
+pnpm db:push       # Push schema changes to Neon
+pnpm db:studio     # Open Drizzle Studio
+pnpm db:generate   # Generate migrations
+pnpm db:seed       # Seed database with sample data
+```
 
-This project follows MVVM architecture:
+### Single Test Execution
 
-- **Model** (`src/actions/`) - Data layer and business logic
-- **ViewModel** (`src/hooks/`) - State management and presentation logic
-- **View** (`src/components/`) - User interface components
-  - `app/` - Application-specific sections
-  - `ui/` - Reusable UI components (Shadcn/ui)
-- **Infrastructure** (`src/lib/`) - Database, auth, and storage utilities
-  - `database/` - Neon connection + Drizzle schemas
-  - `auth/` - JWT tokens + authentication utilities
-  - `images/` - ImageKit client + blur placeholders
-- **Testing** (`tests/`) - Test infrastructure and utilities
-  - `mocks/` - Mock implementations (database, ImageKit, Next.js)
-  - `utils/` - Test utilities and helpers
+```bash
+pnpm test src/actions/messages.spec.ts      # Run specific test file
+pnpm test:watch src/actions/login.spec.ts   # Watch specific file
+```
 
-## Project-Specific Rules
+## Architecture (MVVM)
+
+```
+src/
+├── actions/         # Model - Server actions with business logic (co-located .spec.ts)
+├── hooks/           # ViewModel - TanStack Query wrappers, state management
+├── components/
+│   ├── app/         # View - Application sections (Header, Gallery, Guestbook, etc.)
+│   └── ui/          # Shadcn/ui components
+├── lib/
+│   ├── database/    # Drizzle schemas + Neon client
+│   ├── auth/        # JWT + bcrypt utilities
+│   └── images/      # ImageKit client + blur placeholders
+├── providers/       # React Query + PostHog providers
+└── schemas/         # Zod validation schemas
+
+tests/
+├── mocks/           # Database (PGlite), ImageKit, Next.js mocks
+└── utils/           # Test helpers and database utilities
+```
+
+### Data Flow Pattern
+
+1. **Components** call hooks from `hooks/` for data fetching/mutations
+2. **Hooks** use TanStack Query wrapping server actions from `actions/`
+3. **Actions** interact with database via Drizzle and return typed responses
+4. **Error tracking** via `useErrorTracking` hook captures errors to PostHog before toast display
+
+## Testing
+
+- **Framework**: Vitest + React Testing Library + jsdom
+- **Database**: PGlite (in-memory PostgreSQL) - reset between tests via `cleanTestDatabase()`
+- **Location**: Co-located specs in `src/**/*.spec.ts`
+- **Mocking pattern**:
+  ```typescript
+  vi.mock("~/lib/database/client", () => ({ db: testDb }));
+  vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
+  ```
+- **Aliases**: `~` for `src/`, `~tests` for `tests/`
+
+## Key Conventions
 
 ### Design System
 
-- Use golden theme colors (gold-50 through gold-950)
-- Typography: Inter (body), Playfair Display (headings), Dancing Script (special text)
-- Always ensure color contrast ratio ≥ 4.5:1
+- Golden theme: `gold-50` through `gold-950` (OKLCH)
+- Typography: Inter (body), Playfair Display (headings), Dancing Script (special)
+- Minimum contrast ratio: 4.5:1
 
-### Database & API
+### Database & Auth
 
-- Use Drizzle ORM for type-safe database operations
-- Database schemas: `users`, `messages`, `photos`
-- Use JWT authentication with bcrypt for password hashing
-- Admin credentials stored in `users` table (bcrypt hashed)
-- JWT stateless authentication with httpOnly cookies
-- Middleware validates JWT and checks user existence
-- Authorization handled at application level (no RLS)
-- Environment variables must be validated using `@t3-oss/env-nextjs`
-- All API routes require proper error handling and type safety
+- Drizzle ORM with schemas: `users`, `messages`, `photos`
+- JWT authentication with httpOnly cookies
+- Middleware validates JWT and user existence
+- Environment validation via `@t3-oss/env-nextjs`
 
-### Image Handling
+### Images
 
-- Always use Next.js Image component with optimization
-- Use ImageKit for storage, CDN delivery and automatic optimizations
-- Automatic blur placeholders via plaiceholder + ImageKit
-- Upload/delete operations via ImageKit SDK
-- Use lazy loading for gallery images
+- ImageKit for storage/CDN with automatic optimizations
+- Blur placeholders via plaiceholder + ImageKit
+- Always use Next.js Image component
 
-### Analytics & Error Monitoring
+### Error Monitoring
 
-- PostHog for user analytics and error tracking
-- All data hooks must use `useErrorTracking` for error capture
-- Track user interactions: section views, form submissions, link clicks
-- Capture errors with context before showing user-facing messages
+- All data hooks use `useErrorTracking` for PostHog capture
 - Error events: `apiError`, `mutationError`, `queryError`
-- Error properties: message, type, context, stack trace, URL
-
-## Environment Variables
-
-- `DATABASE_URL` - Neon PostgreSQL connection string
-- `JWT_SECRET` - Secret for JWT token signing (min. 32 chars)
-- `IMAGEKIT_PUBLIC_KEY` - ImageKit public key
-- `IMAGEKIT_PRIVATE_KEY` - ImageKit private key
-- `IMAGEKIT_URL_ENDPOINT` - ImageKit URL endpoint
-- `IMAGEKIT_FOLDER_PREFIX` - ImageKit folder prefix (optional, used for staging)
-- `NEXT_PUBLIC_POSTHOG_KEY` - PostHog project API key
-- `NEXT_PUBLIC_POSTHOG_HOST` - PostHog host URL (default: https://app.posthog.com)
 
 ## Environments
 
-| Ambiente | Branch | Neon Branch | Dominio | ImageKit Prefix |
-|----------|--------|-------------|---------|-----------------|
-| Production | main | main | bodas-iria-ai.com.br | (vazio) |
-| Staging | staging | dev | golden-anniversary.vercel.app | stg |
+| Environment | Branch  | Database | Domain                        |
+| ----------- | ------- | -------- | ----------------------------- |
+| Production  | main    | main     | bodas-iria-ai.com.br          |
+| Staging     | staging | dev      | golden-anniversary.vercel.app |
 
-### Local Development
-
-- `.env.local` - Hardcoded env vars for local development
-- `.env.production` - 1Password references for production builds
-
-### Scripts
-
-- `pnpm dev` - Dev server with `.env.local`
-- `pnpm build` - Build for Vercel CI (uses environment vars)
-- `pnpm build:prod` - Local production build with 1Password
-- `pnpm deploy:prd` - Deploy to production (`vercel --prod`)
-- `pnpm deploy:stg` - Deploy to staging (`vercel --target staging`)
+```bash
+pnpm deploy:prd    # Deploy to production
+pnpm deploy:stg    # Deploy to staging
+```
 
 ### Deploy Workflow
 
@@ -123,126 +126,46 @@ This project follows MVVM architecture:
 6. Create PR from `staging` to `main`
 7. After merge, deploy to production (`pnpm deploy:prd`)
 
-## Testing Infrastructure
-
-- **Framework**: Vitest + React Testing Library + jsdom
-- **Database Testing**: PGlite (in-memory PostgreSQL) following Drizzle ORM docs
-- **Test Organization**:
-  - `tests/mocks/` - Mock implementations (database, ImageKit, Next.js)
-  - `tests/utils/` - Database utilities and test helpers
-- **Setup**: Comprehensive environment variable mocking
-- **Status**: 83 unit tests passing, integration test infrastructure ready
-
-## Key Architecture Points
-
-- Admin user managed via database (created with seed script)
-- JWT authentication with httpOnly cookies
-- Middleware validates JWT and checks user existence
-- Database operations via Drizzle ORM
-- Image storage and CDN via ImageKit
-- Authorization handled at application level
-
-## Core Features
-
-1. **Header/Hero** - Couple presentation
-2. **Countdown** - Timer to celebration (November 8, 2025, 6:30 PM)
-3. **Photo Gallery** - Carousel + thumbnails with lazy loading
-4. **Guestbook** - Messages with mandatory moderation
-5. **Family Messages** - Special section for children/grandchildren
-6. **Timeline** - Important milestones in the couple's life
-7. **Footer** - Inspirational quote and credits
-8. **Admin Panel** - Moderation via JWT authentication
-
-## Git & PR Conventions
+## Git Conventions
 
 ### Commit Messages
 
-#### Commit Message Structure
-
-- **Commit message**: concise and descriptive, focusing on WHAT functionality is being added/changed
-- **Commit body**: concise explanation of HOW the changes were implemented (optional); prefer 3–4 list items max
-
-#### Message Format
-
-- Use Conventional Commits types (no scope in this project)
-- Be specific about functionality, not generic
-- Focus on WHAT is added/fixed, not HOW
-- For dependencies, specify the purpose
-- For fixes, describe the problem being solved
-- Use imperative mood (e.g., "add", "fix", "implement")
-- Keep it concise; avoid details visible in the diff
-- Do not describe changes not in the staged area
-- Do not mention future tasks, architectural decisions, or reasoning
-- Describe what is being committed, not what was planned or considered
-
-#### Body Format
-
-- Optional when the message is clear enough
-- Use list items for multiple changes (3–4 max)
-- Focus on HOW the changes were implemented
-- Keep items direct and concise
-- Do not list files or packages
-- Do not mention development decisions
-- Do not reference phases or temporary task lists
-
-#### Example
-
-```text
+```
 feat: add user profile management
 
 - Create profile edit form with validation
 - Add avatar upload with image optimization
-- Implement email verification flow
-- Extract validation logic to reusable helper
 ```
 
-### Pull Request Format
+- Use Conventional Commits (feat, fix, refactor, etc.)
+- Imperative mood, focus on WHAT not HOW
+- Body optional, 3-4 list items max
 
-**Title**: `type(ISSUE-ID): a concise description about the feature/change`
+### Pull Requests
 
-- **scope**: Must be the Linear issue ID (e.g., DEV-XX, DEV-YY)
-- **Example**: `feat(DEV-XX): add feature description`
-
-**Body template**:
+**Title**: `type(DEV-XX): description`
 
 ```markdown
 ## Summary
 
-Brief description of changes and context.
+Brief description of changes.
 
 ## Changes
 
-- ✅ Feature/change 1
-- ✅ Feature/change 2
-- ✅ Feature/change 3
+- Feature/change 1
+- Feature/change 2
 
 ## Test Plan
 
 - [x] Test case 1
 - [x] Test case 2
-- [x] All configurations validated
 
 Closes DEV-XX
 ```
 
-## Before Writing Code
+## Code Guidelines
 
-1. Analyze existing patterns in the codebase
-2. Consider edge cases and error scenarios
-3. Follow project conventions
-4. Validate accessibility requirements
-
-## Guidelines
-
-<code_guidelines>
-Do what has been asked; nothing more, nothing less.
-Prefer editing existing files over creating new ones.
-Only create documentation files when explicitly requested.
-</code_guidelines>
-
-<avoid_over_engineering>
-Keep solutions simple and focused on the current task.
-Avoid creating unnecessary abstractions, helpers, or utilities for one-time operations.
-Three similar lines of code is better than a premature abstraction.
-Do not add features, refactoring, or "improvements" beyond what was asked.
-</avoid_over_engineering>
+- Do what has been asked; nothing more, nothing less
+- Prefer editing existing files over creating new ones
+- Keep solutions simple - three similar lines > premature abstraction
+- Do not add features, refactoring, or "improvements" beyond what was asked

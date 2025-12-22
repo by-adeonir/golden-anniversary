@@ -118,7 +118,7 @@ export function UploadsModal({ open, onOpenChange }: UploadsModalProps) {
                         {(uploadFile.status === 'pending' || uploadFile.status === 'error') && (
                           <button
                             className={cn(
-                              '-right-1.5 -top-1.5 absolute flex size-6 items-center justify-center rounded-full bg-zinc-800 text-white opacity-0 transition-opacity hover:bg-zinc-900 group-hover:opacity-100',
+                              'absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full bg-zinc-800 text-white opacity-0 transition-opacity hover:bg-zinc-900 group-hover:opacity-100',
                               isUploading ? 'pointer-events-none' : 'cursor-pointer',
                             )}
                             disabled={isUploading}
