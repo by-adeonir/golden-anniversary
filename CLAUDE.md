@@ -73,8 +73,8 @@ tests/
 - **Location**: Co-located specs in `src/**/*.spec.ts`
 - **Mocking pattern**:
   ```typescript
-  vi.mock('~/lib/database/client', () => ({ db: testDb }))
-  vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
+  vi.mock("~/lib/database/client", () => ({ db: testDb }));
+  vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
   ```
 - **Aliases**: `~` for `src/`, `~tests` for `tests/`
 
@@ -106,10 +106,10 @@ tests/
 
 ## Environments
 
-| Environment | Branch  | Database | Domain                          |
-|-------------|---------|----------|----------------------------------|
-| Production  | main    | main     | bodas-iria-ai.com.br            |
-| Staging     | staging | dev      | golden-anniversary.vercel.app   |
+| Environment | Branch  | Database | Domain                        |
+| ----------- | ------- | -------- | ----------------------------- |
+| Production  | main    | main     | bodas-iria-ai.com.br          |
+| Staging     | staging | dev      | golden-anniversary.vercel.app |
 
 ```bash
 pnpm deploy:prd    # Deploy to production
@@ -128,6 +128,31 @@ pnpm deploy:stg    # Deploy to staging
 
 ## Git Conventions
 
+### Pull Requests
+
+- **Always create PRs targeting `staging` branch** (never directly to `main`)
+- After validation on staging, create PR from `staging` to `main`
+
+**Title**: `type(scope): description` (scope is required)
+
+```markdown
+## Summary
+
+Brief description of changes.
+
+## Changes
+
+- Feature/change 1
+- Feature/change 2
+
+## Test Plan
+
+- [x] Test case 1
+- [x] Test case 2
+
+Closes DEV-XX
+```
+
 ### Commit Messages
 
 ```
@@ -138,27 +163,10 @@ feat: add user profile management
 ```
 
 - Use Conventional Commits (feat, fix, refactor, etc.)
+- **Do NOT use scope in commits** - format is always `type: description`
+- **Do NOT mention package versions** if a package is updated
 - Imperative mood, focus on WHAT not HOW
 - Body optional, 3-4 list items max
-
-### Pull Requests
-
-**Title**: `type(DEV-XX): description`
-
-```markdown
-## Summary
-Brief description of changes.
-
-## Changes
-- Feature/change 1
-- Feature/change 2
-
-## Test Plan
-- [x] Test case 1
-- [x] Test case 2
-
-Closes DEV-XX
-```
 
 ## Code Guidelines
 
