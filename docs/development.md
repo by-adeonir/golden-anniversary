@@ -144,7 +144,9 @@ src/
 **PR Title**: `feat(DEV-XX): feature description with imperative verb`
 
 ```bash
-# Create branch with Linear ticket
+# Create branch from staging with Linear ticket
+git checkout staging
+git pull origin staging
 git checkout -b feat/DEV-XX-feature-name
 
 # Develop...
@@ -153,6 +155,11 @@ pnpm check
 git add .
 git commit -m "feat: feature description"
 git push origin feat/DEV-XX-feature-name
+
+# Create PR targeting staging branch
+# After merge to staging, GitHub Actions deploys to Netlify
+# Validate at golden-anniversary.netlify.app
+# Then create PR from staging to main for production
 ```
 
 ### 2. Debugging

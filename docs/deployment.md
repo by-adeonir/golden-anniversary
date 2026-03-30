@@ -2,16 +2,22 @@
 
 ## Overview
 
-This guide covers the deployment process for the Golden Anniversary website using Vercel with the new tech stack (Neon + JWT + ImageKit).
+This guide covers the deployment process for the Golden Anniversary website. Production deploys to Vercel (custom domain), staging deploys to Netlify (free tier). Both are automated via GitHub Actions.
+
+| Environment | Branch  | Platform | Domain                         |
+| ----------- | ------- | -------- | ------------------------------ |
+| Production  | main    | Vercel   | bodas-iria-ai.com.br           |
+| Staging     | staging | Netlify  | golden-anniversary.netlify.app |
 
 ## Prerequisites
 
-- Vercel account
-- Configured Neon database
+- Vercel account (production)
+- Netlify account (staging)
+- Configured Neon database (separate main/dev databases)
 - ImageKit account and configuration
-- GitHub repository
+- GitHub repository with secrets configured
 
-## Vercel Deployment
+## Vercel Deployment (Production)
 
 ### 1. Connect Repository
 
@@ -78,6 +84,65 @@ pnpm db:seed
   "installCommand": "pnpm install --frozen-lockfile",
   "framework": "nextjs"
 }
+```
+
+## Netlify Deployment (Staging)
+
+### 1. Create Site
+
+1. Go to [Netlify Dashboard](https://app.netlify.com)
+2. Click "Add new site" > "Deploy manually"
+3. Note the Site ID from Site Settings > General
+
+### 2. Environment Variables Configuration
+
+1. Go to Site Settings > Environment Variables
+2. Add required variables (scoped to "All deploys"):
+
+```bash
+# JWT Authentication
+JWT_SECRET=your-staging-jwt-secret
+
+# Neon Database (dev branch)
+DATABASE_URL=postgresql://username:password@ep-example.us-east-2.aws.neon.tech/dev?sslmode=require
+
+# ImageKit Configuration
+IMAGEKIT_PRIVATE_KEY=private_your-private-key-here
+NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=public_your-public-key-here
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your-id
+IMAGEKIT_FOLDER_PREFIX=stg
+
+# PostHog Analytics
+NEXT_PUBLIC_POSTHOG_KEY=your-public-key-here
+NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
+
+# Site URL
+NEXT_PUBLIC_SITE_URL=https://golden-anniversary.netlify.app
+```
+
+### 3. GitHub Actions Configuration
+
+Add the following secrets to your GitHub repository (Settings > Secrets):
+
+- `NETLIFY_AUTH_TOKEN`: Personal access token from Netlify (User Settings > Applications > Personal access tokens)
+- `NETLIFY_SITE_ID`: Site ID from Netlify Site Settings
+
+Deploys are triggered automatically on push to `staging` branch via `.github/workflows/deploy.yml`.
+
+### 4. Manual Deploy (Optional)
+
+```bash
+# Install Netlify CLI
+npm i -g netlify-cli
+
+# Authenticate
+netlify login
+
+# Link to existing site
+netlify link --id YOUR_SITE_ID
+
+# Build and deploy
+pnpm deploy:stg
 ```
 
 ## Monitoring

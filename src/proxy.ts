@@ -1,8 +1,4 @@
-import { eq } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
-import { verifyToken } from '~/lib/auth/jwt'
-import { db } from '~/lib/database/client'
-import { users } from '~/lib/database/schema'
 
 export async function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/admin')) {
@@ -13,6 +9,11 @@ export async function proxy(request: NextRequest) {
       url.pathname = '/'
       return NextResponse.redirect(url)
     }
+
+    const { eq } = await import('drizzle-orm')
+    const { verifyToken } = await import('~/lib/auth/jwt')
+    const { db } = await import('~/lib/database/client')
+    const { users } = await import('~/lib/database/schema')
 
     const payload = await verifyToken(token)
 
