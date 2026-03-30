@@ -14,7 +14,7 @@ Commemorative website for Iria e Ari's 50th wedding anniversary (November 8, 202
 
 ```bash
 pnpm dev           # Start development server (Turbopack)
-pnpm build         # Build for Vercel CI
+pnpm build         # Build for production/staging CI
 pnpm build:prod    # Local production build (1Password)
 pnpm lint          # Format and lint code (Biome)
 pnpm check         # TypeScript type checking
@@ -106,25 +106,25 @@ tests/
 
 ## Environments
 
-| Environment | Branch  | Database | Domain                        |
-| ----------- | ------- | -------- | ----------------------------- |
-| Production  | main    | main     | bodas-iria-ai.com.br          |
-| Staging     | staging | dev      | golden-anniversary.vercel.app |
+| Environment | Branch  | Database | Platform | Domain                          |
+| ----------- | ------- | -------- | -------- | ------------------------------- |
+| Production  | main    | main     | Vercel   | bodas-iria-ai.com.br            |
+| Staging     | staging | dev      | Netlify  | golden-anniversary.netlify.app  |
 
 ```bash
-pnpm deploy:prd    # Deploy to production
-pnpm deploy:stg    # Deploy to staging
+pnpm deploy:prd    # Deploy to production (Vercel)
+pnpm deploy:stg    # Deploy to staging (Netlify)
 ```
 
 ### Deploy Workflow
 
-1. Work on `staging` branch
+1. Create feature branch from `staging` (`feat/DEV-XX-description`)
 2. Make changes and test locally (`pnpm check && pnpm lint && pnpm test`)
-3. Commit and push to `staging`
-4. Deploy to staging (`pnpm deploy:stg`) or wait for Vercel auto-deploy
-5. Validate changes at `golden-anniversary.vercel.app`
+3. Create PR targeting `staging` branch
+4. After merge, GitHub Actions auto-deploys to Netlify
+5. Validate changes at `golden-anniversary.netlify.app`
 6. Create PR from `staging` to `main`
-7. After merge, deploy to production (`pnpm deploy:prd`)
+7. After merge, GitHub Actions auto-deploys to Vercel
 
 ## Git Conventions
 
