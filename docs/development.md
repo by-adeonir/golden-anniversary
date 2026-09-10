@@ -6,7 +6,7 @@ This guide covers the development environment setup for the Golden Anniversary w
 
 ## Prerequisites
 
-- Node.js 22+
+- Node.js 24+
 - pnpm
 - Neon database account
 - ImageKit account

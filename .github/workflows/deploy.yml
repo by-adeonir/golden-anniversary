@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  NODE_VERSION: 22.17.0
+  NODE_VERSION: 24.20.0
   PNPM_VERSION: 12.3.4
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
