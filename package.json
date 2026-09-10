@@ -12,7 +12,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "deploy:prd": "vercel --prod",
-    "deploy:stg": "vercel --target staging",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",

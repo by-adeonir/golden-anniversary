@@ -106,32 +106,29 @@ tests/
 
 ## Environments
 
-| Environment | Branch  | Database | Domain                        |
-| ----------- | ------- | -------- | ----------------------------- |
-| Production  | main    | main     | bodas-iria-ai.com.br          |
-| Staging     | staging | dev      | golden-anniversary.vercel.app |
+| Environment | Branch       | Database | Domain               |
+| ----------- | ------------ | -------- | -------------------- |
+| Production  | main         | main     | bodas-iria-ai.com.br |
+| Preview     | pull request | main     | Vercel preview URL   |
 
 ```bash
 pnpm deploy:prd    # Deploy to production
-pnpm deploy:stg    # Deploy to staging
 ```
 
 ### Deploy Workflow
 
-1. Work on `staging` branch
+1. Create feature branch from `main` (`feat/DEV-XX-description`)
 2. Make changes and test locally (`pnpm check && pnpm lint && pnpm test`)
-3. Commit and push to `staging`
-4. Deploy to staging (`pnpm deploy:stg`) or wait for Vercel auto-deploy
-5. Validate changes at `golden-anniversary.vercel.app`
-6. Create PR from `staging` to `main`
-7. After merge, deploy to production (`pnpm deploy:prd`)
+3. Open a PR targeting `main`
+4. Validate changes at the Vercel preview URL
+5. After merge, GitHub Actions auto-deploys to Vercel production
 
 ## Git Conventions
 
 ### Pull Requests
 
-- **Always create PRs targeting `staging` branch** (never directly to `main`)
-- After validation on staging, create PR from `staging` to `main`
+- **Always create PRs targeting `main` branch** from a feature branch
+- Validate the Vercel preview before merging
 
 **Title**: `type(scope): description` (scope is required)
 
