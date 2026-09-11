@@ -20,15 +20,13 @@ export type UploadResult = {
 export async function uploadImage(file: File, folder = 'memories'): Promise<UploadResult> {
   try {
     const filename = `${crypto.randomUUID()}.jpg`
-    const prefix = env.IMAGEKIT_FOLDER_PREFIX
-    const fullFolder = prefix ? `/${prefix}/${folder}` : `/${folder}`
 
     const buffer = Buffer.from(await file.arrayBuffer())
 
     const result = await imagekit.upload({
       file: buffer,
       fileName: filename,
-      folder: fullFolder,
+      folder: `/${folder}`,
       useUniqueFileName: false,
     })
 

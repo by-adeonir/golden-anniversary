@@ -9,8 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: 22.17.0
-  PNPM_VERSION: 10.14.0
+  NODE_VERSION: 24.20.0
+  PNPM_VERSION: 12.3.4
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   IMAGEKIT_PRIVATE_KEY: ${{ secrets.IMAGEKIT_PRIVATE_KEY }}
@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -33,7 +33,7 @@ jobs:
           version: ${{ env.PNPM_VERSION }}
 
       - name: Setup node with cache
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
@@ -54,17 +54,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: "22"
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: "10"
+          version: ${{ env.PNPM_VERSION }}
           run_install: false
 
       - name: Get pnpm store directory
@@ -74,7 +74,7 @@ jobs:
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}

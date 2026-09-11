@@ -41,7 +41,6 @@ DATABASE_URL=postgresql://username:password@ep-example.us-east-2.aws.neon.tech/d
 IMAGEKIT_PRIVATE_KEY=private_your-private-key-here
 NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=public_your-public-key-here
 NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your-id
-IMAGEKIT_FOLDER_PREFIX=stg  # Optional: prefix for staging environment
 
 # PostHog Analytics
 NEXT_PUBLIC_POSTHOG_KEY=your-public-key-here

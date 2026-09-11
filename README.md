@@ -80,4 +80,4 @@ For detailed setup instructions, start with the [Development Guide](docs/develop
 
 ## License
 
-Private and proprietary project.
+The source code is licensed under the MIT License. The site content, the visual identity, and the third-party fonts are not covered by it. See [LICENSE](LICENSE) for the full terms.

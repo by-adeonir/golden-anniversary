@@ -46,7 +46,6 @@ event/{uuid}.{ext}     # Event photos
 
 - Automatic image optimization and CDN delivery
 - Blur placeholders via plaiceholder
-- Staging prefix: `stg/` (via IMAGEKIT_FOLDER_PREFIX)
 
 ## Environment Variables
 
@@ -61,7 +60,6 @@ IMAGEKIT_URL_ENDPOINT # CDN endpoint (NEXT_PUBLIC_)
 
 ### Optional
 ```bash
-IMAGEKIT_FOLDER_PREFIX    # Staging prefix (e.g., "stg")
 NEXT_PUBLIC_POSTHOG_KEY   # Analytics project key
 NEXT_PUBLIC_POSTHOG_HOST  # PostHog host URL
 ```

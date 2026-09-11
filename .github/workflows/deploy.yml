@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main, staging]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -10,8 +10,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  NODE_VERSION: 22.17.0
-  PNPM_VERSION: 10.14.0
+  NODE_VERSION: 24.20.0
+  PNPM_VERSION: 12.3.4
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
@@ -63,4 +63,4 @@ jobs:
           vercel-token: ${{ env.VERCEL_TOKEN }}
           vercel-org-id: ${{ env.VERCEL_ORG_ID }}
           vercel-project-id: ${{ env.VERCEL_PROJECT_ID }}
-          vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '--target staging' }}
+          vercel-args: "--prod"
