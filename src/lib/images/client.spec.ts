@@ -18,6 +18,7 @@ vi.mock('imagekit', () => ({
 vi.mock('~/env', () => ({
   env: {
     IMAGEKIT_PRIVATE_KEY: 'test-private-key',
+    IMAGEKIT_FOLDER_PREFIX: '',
     NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: 'test-public-key',
     NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: 'https://ik.imagekit.io/test',
   },

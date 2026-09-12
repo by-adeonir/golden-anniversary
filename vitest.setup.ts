@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 vi.stubEnv('DATABASE_URL', 'postgresql://test:test@localhost:5432/test_db')
 vi.stubEnv('JWT_SECRET', 'test-jwt-secret-32-characters-minimum')
 vi.stubEnv('IMAGEKIT_PRIVATE_KEY', 'test-private-key')
+vi.stubEnv('IMAGEKIT_FOLDER_PREFIX', '')
 vi.stubEnv('IMAGEKIT_PUBLIC_KEY', 'test-public-key')
 vi.stubEnv('NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY', 'test-public-key')
 vi.stubEnv('NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT', 'https://ik.imagekit.io/test')
