@@ -1,6 +1,6 @@
 'use client'
 
-import { m as motion } from 'framer-motion'
+import { m as motion } from 'motion/react'
 
 type PulseHeartProps = {
   className?: string

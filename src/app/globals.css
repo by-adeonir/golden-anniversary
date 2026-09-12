@@ -17,6 +17,8 @@
   --color-gold-900: var(--gold-900);
   --color-gold-950: var(--gold-950);
 
+  --color-rose-600: var(--rose-600);
+
   --text-10xl: 10rem;
 
   --font-heading: var(--font-serif);
@@ -41,6 +43,8 @@
   --gold-800: oklch(49.2% 0.085 65);
   --gold-900: oklch(42.8% 0.065 60);
   --gold-950: oklch(30.2% 0.042 55);
+
+  --rose-600: oklch(61.4% 0.24 11.26);
 
   --font-heading: var(--font-serif);
   --font-sans: var(--font-sans);

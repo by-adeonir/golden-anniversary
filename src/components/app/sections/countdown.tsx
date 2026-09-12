@@ -1,7 +1,7 @@
 'use client'
 
-import { AnimatePresence, m as motion } from 'framer-motion'
 import { CalendarFold, Heart } from 'lucide-react'
+import { AnimatePresence, m as motion } from 'motion/react'
 import { useEffect, useRef } from 'react'
 import { Card } from '~/components/ui/card'
 import { Section } from '~/components/ui/section'

@@ -1,6 +1,6 @@
 'use client'
 
-import { m as motion } from 'framer-motion'
+import { m as motion } from 'motion/react'
 import { type ReactNode, useState } from 'react'
 import { Avatar, AvatarInitials } from '~/components/ui/avatar'
 import { Card, CardContent } from '~/components/ui/card'

@@ -2,8 +2,8 @@
 
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { m as motion } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
+import { m as motion } from 'motion/react'
 import type * as React from 'react'
 import { useReducedMotion } from '~/hooks/use-reduced-motion'
 import { config } from '~/lib/config'

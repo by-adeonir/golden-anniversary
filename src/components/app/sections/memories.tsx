@@ -1,8 +1,8 @@
 'use client'
 
 import useEmblaCarousel from 'embla-carousel-react'
-import { m as motion } from 'framer-motion'
 import { Camera, ChevronLeft, ChevronRight } from 'lucide-react'
+import { m as motion } from 'motion/react'
 import NextImage from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '~/components/ui/button'
