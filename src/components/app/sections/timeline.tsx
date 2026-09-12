@@ -1,7 +1,7 @@
 'use client'
 
-import { m as motion, useScroll, type Variants } from 'framer-motion'
 import { Baby, Clock, Crown, Heart, type LucideIcon, Sparkles, Users } from 'lucide-react'
+import { m as motion, useScroll, type Variants } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent } from '~/components/ui/card'
 import { Section } from '~/components/ui/section'

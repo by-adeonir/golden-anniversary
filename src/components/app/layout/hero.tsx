@@ -1,7 +1,7 @@
 'use client'
 
-import { m as motion } from 'framer-motion'
 import { MoveDown } from 'lucide-react'
+import { m as motion } from 'motion/react'
 import { Fragment } from 'react'
 import { PulseHeart } from '~/components/ui/pulse-heart'
 import { useReducedMotion } from '~/hooks/use-reduced-motion'

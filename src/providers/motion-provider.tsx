@@ -1,6 +1,6 @@
 'use client'
 
-import { domAnimation, LazyMotion } from 'framer-motion'
+import { domAnimation, LazyMotion } from 'motion/react'
 import type { ReactNode } from 'react'
 
 type MotionProviderProps = {
