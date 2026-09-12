@@ -22,11 +22,13 @@ export async function uploadImage(file: File, folder = 'memories'): Promise<Uplo
     const filename = `${crypto.randomUUID()}.jpg`
 
     const buffer = Buffer.from(await file.arrayBuffer())
+    const prefix = env.IMAGEKIT_FOLDER_PREFIX.replace(/^\/+|\/+$/g, '')
+    const imageFolder = prefix ? `/${prefix}/${folder}` : `/${folder}`
 
     const result = await imagekit.upload({
       file: buffer,
       fileName: filename,
-      folder: `/${folder}`,
+      folder: imageFolder,
       useUniqueFileName: false,
     })
 
