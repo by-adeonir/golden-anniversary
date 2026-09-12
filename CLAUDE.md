@@ -8,7 +8,7 @@ Commemorative website for Iria e Ari's 50th wedding anniversary (November 8, 202
 
 **Audience**: Visitors (family/friends, ages 20-80) + Admin (content moderation)
 
-**Tech Stack**: Next.js 15 (App Router) + React 19 + TypeScript 5 + Tailwind CSS 4 + Shadcn/ui + Neon PostgreSQL + Drizzle ORM + ImageKit CDN + PostHog
+**Tech Stack**: Next.js (App Router) + React + TypeScript + Tailwind CSS + Shadcn/ui + Neon PostgreSQL + Drizzle ORM + ImageKit CDN + PostHog
 
 ## Development Commands
 
