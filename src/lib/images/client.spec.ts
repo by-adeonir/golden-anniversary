@@ -5,6 +5,13 @@
 
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+const mockedEnv = vi.hoisted(() => ({
+  IMAGEKIT_PRIVATE_KEY: 'test-private-key',
+  IMAGEKIT_FOLDER_PREFIX: '',
+  NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: 'test-public-key',
+  NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: 'https://ik.imagekit.io/test',
+}))
+
 vi.mock('imagekit', () => ({
   // biome-ignore lint/complexity/useArrowFunction: vi.fn mock requires function for constructor
   default: vi.fn(function () {
@@ -16,11 +23,7 @@ vi.mock('imagekit', () => ({
 }))
 
 vi.mock('~/env', () => ({
-  env: {
-    IMAGEKIT_PRIVATE_KEY: 'test-private-key',
-    NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: 'test-public-key',
-    NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: 'https://ik.imagekit.io/test',
-  },
+  env: mockedEnv,
 }))
 
 vi.stubGlobal('crypto', {
@@ -35,6 +38,7 @@ describe('Image Client Utils', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockedEnv.IMAGEKIT_FOLDER_PREFIX = ''
 
     mockUpload = (imagekit as any).upload
     mockDeleteFile = (imagekit as any).deleteFile
@@ -124,7 +128,7 @@ describe('Image Client Utils', () => {
       fileType: 'image',
     }
 
-    it('should upload image successfully with default folder', async () => {
+    it('keeps the root folder when the environment prefix is empty', async () => {
       mockUpload.mockResolvedValue(mockUploadResult)
 
       const result = await uploadImage(mockFile)
@@ -145,6 +149,19 @@ describe('Image Client Utils', () => {
         folder: '/memories',
         useUniqueFileName: false,
       })
+    })
+
+    it('prepends the environment prefix to the upload folder', async () => {
+      mockedEnv.IMAGEKIT_FOLDER_PREFIX = '/development'
+      mockUpload.mockResolvedValue(mockUploadResult)
+
+      await uploadImage(mockFile)
+
+      expect(mockUpload).toHaveBeenCalledWith(
+        expect.objectContaining({
+          folder: '/development/memories',
+        }),
+      )
     })
 
     it('should upload image with custom folder', async () => {
